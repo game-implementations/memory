@@ -8,6 +8,22 @@ class BoardController:
     def __init__(self):
         pass
 
+    def turn_cards(self, board, x1, y1, x2, y2):
+        board.board[x1][y1].isTurnedUp = not board.board[x1][y1].isTurnedUp
+        board.board[x2][y2].isTurnedUp = not board.board[x2][y2].isTurnedUp
+
+    def is_board_finished(self, board):
+        for c in range(len(board.board)):
+            for r in range(len(board.board[c])):
+                if not board.board[c][r].isPaired:
+                    return False
+        return True
+
+    def is_same_card(self, board, x1, y1, x2, y2):
+        if board.board[x1][y1].value == board.board[x2][y2].value:
+            return True
+        return False
+
     def initialize_board(self, num_rows, num_columns):
         num_cards = num_rows * num_columns
         if num_cards % 2 != 0:
