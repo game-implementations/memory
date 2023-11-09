@@ -60,7 +60,72 @@ def display_board(board):
     print(msg)
 
 
-def main_view():
+def main_view_two_players():
+    NUM_ROWS = 4
+    NUM_COLUMNS = 4
+    game_controller = GameController()
+
+    player1 = Player()
+    player2 = Player()
+    player1.name = input("What is your name?\t")
+    player2.name = input("What is your name?\t")
+
+    game = game_controller.initialize_game_two_players(player1, player2, NUM_COLUMNS, NUM_ROWS)
+
+    display_board(game.board)
+    while not game.is_game_finished:
+        if game.isPlayerOneTurn:
+            print("~ Player 1:\t" + player1.name + "'s turn ~")
+        else:
+            print("~ Player 2:\t" + player2.name + "'s turn ~")
+
+        pos1 = ask_position(NUM_COLUMNS, NUM_ROWS)
+        pos2 = ask_position(NUM_COLUMNS, NUM_ROWS)
+        game_controller.turn_cards(game.board, pos1.x, pos1.y, pos2.x, pos2.y)
+        display_board(game.board)
+        game_controller.turn_cards(game.board, pos1.x, pos1.y, pos2.x, pos2.y)
+        is_success = False
+        if game.isPlayerOneTurn:
+            is_success = game_controller.play_turn(game, player1, pos1.x, pos1.y, pos2.x, pos2.y)
+            if is_success:
+                print("The player one " + player1.name + "has guessed a pair. It is his turn again.")
+        else:
+            is_success = game_controller.play_turn(game, player2, pos1.x, pos1.y, pos2.x, pos2.y)
+            if is_success:
+                print("The player two " + player2.name + "has guessed a pair. It is his turn again.")
+
+        if not is_success:
+            game.isPlayerOneTurn = not game.isPlayerOneTurn
+
+
+
+    if player1.guessedPairs > player2.guessedPairs:
+        print(player1.name + " has won!")
+        score = int((player1.guessedPairs / player1.tries) * 100)
+        print("~ SCORE of " + player1.name + ": ~\t", score)
+    elif player2.guessedPairs > player1.guessedPairs:
+        print(player2.name + " has won!")
+        score = int((player2.guessedPairs / player2.tries) * 100)
+        print("~ SCORE of " + player2.name + ": ~\t", score)
+    else:
+        if player1.tries > player2.tries:
+            print(player2.name + " has won!")
+            score = int((player2.guessedPairs / player2.tries) * 100)
+            print("~ SCORE of " + player2.name + ": ~\t", score)
+        elif player2.tries > player1.tries:
+            print(player1.name + " has won!")
+            score = int((player1.guessedPairs / player1.tries) * 100)
+            print("~ SCORE of " + player1.name + ": ~\t", score)
+        else:
+            print("This game ended in a draw.")
+            score = int((player1.guessedPairs / player1.tries) * 100)
+            print("~ SCORE of " + player1.name + ": ~\t", score)
+            score = int((player2.guessedPairs / player2.tries) * 100)
+            print("\n~ SCORE of " + player2.name + ": ~\t", score)
+
+
+
+def main_view_one_player():
     NUM_ROWS = 2
     NUM_COLUMNS = 2
     game_controller = GameController()
@@ -79,7 +144,7 @@ def main_view():
         game_controller.turn_cards(game.board, pos1.x, pos1.y, pos2.x, pos2.y)
         display_board(game.board)
         game_controller.turn_cards(game.board, pos1.x, pos1.y, pos2.x, pos2.y)
-        game_controller.play_turn(game, pos1.x, pos1.y, pos2.x, pos2.y)
+        game_controller.play_turn(game, player, pos1.x, pos1.y, pos2.x, pos2.y)
 
     score = int((game.player.guessedPairs / game.player.tries) * 100)
     print("~ SCORE of " + player.name + ": ~\t", score)
