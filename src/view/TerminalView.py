@@ -85,7 +85,7 @@ def main_view_two_players():
             player_controller.display_winner(players[0])
             player_controller.display_score(players[0])
         else:
-            print("This game ended in a draw.")
+            player_controller.display_draw()
             player_controller.display_score(players[1])
             player_controller.display_score(players[0])
 
