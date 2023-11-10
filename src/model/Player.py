@@ -8,4 +8,3 @@ class Player:
         self.guessedPairs = 0
         self.tries = 0
         self.score = 0
-

@@ -18,7 +18,7 @@ def ask_position(num_columns, num_rows):
     pos = Position()
     # TODO: Protect with do while
     col_letter = input("Please write column letter:\t")
-    col_letter.upper()
+    col_letter = col_letter.upper()
     col_letter = col_letter[0]
     if ord(col_letter) - ord('A') < 0 or ord(col_letter) - ord('A') >= num_columns:
         raise ValueError("Out of range letter.")
@@ -61,8 +61,8 @@ def display_board(board):
 
 
 def main_view_two_players():
-    NUM_ROWS = 4
-    NUM_COLUMNS = 4
+    NUM_ROWS = 2
+    NUM_COLUMNS = 2
     game_controller = GameController()
 
     player1 = Player()
@@ -74,7 +74,7 @@ def main_view_two_players():
 
     display_board(game.board)
     while not game.is_game_finished:
-        if game.isPlayerOneTurn:
+        if game.is_player_one_turn:
             print("~ Player 1:\t" + player1.name + "'s turn ~")
         else:
             print("~ Player 2:\t" + player2.name + "'s turn ~")
@@ -85,17 +85,17 @@ def main_view_two_players():
         display_board(game.board)
         game_controller.turn_cards(game.board, pos1.x, pos1.y, pos2.x, pos2.y)
         is_success = False
-        if game.isPlayerOneTurn:
+        if game.is_player_one_turn:
             is_success = game_controller.play_turn(game, player1, pos1.x, pos1.y, pos2.x, pos2.y)
             if is_success:
-                print("The player one " + player1.name + "has guessed a pair. It is his turn again.")
+                print("The player one " + player1.name + " has guessed a pair. It is his turn again.")
         else:
             is_success = game_controller.play_turn(game, player2, pos1.x, pos1.y, pos2.x, pos2.y)
             if is_success:
-                print("The player two " + player2.name + "has guessed a pair. It is his turn again.")
+                print("The player two " + player2.name + " has guessed a pair. It is his turn again.")
 
         if not is_success:
-            game.isPlayerOneTurn = not game.isPlayerOneTurn
+            game.is_player_one_turn = not game.is_player_one_turn
 
 
 

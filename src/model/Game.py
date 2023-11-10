@@ -8,5 +8,3 @@ class Game:
         self.duration = 0
         self.board = Board(num_columns, num_rows)
         self.is_game_finished = False
-
-
