@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from src.controller.GameController import GameController
-from src.controller.PlayerController import PlayerController
 from src.model.Player import Player
 from src.model.Position import Position
 
