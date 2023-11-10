@@ -72,8 +72,11 @@ def display_draw():
 
 
 def display_score(player):
-    score = int((player.guessedPairs / player.tries) * 100)
-    print(f"~ SCORE of {player.name}: ~\t", score)
+    percentage_correct = int((player.guessedPairs / player.tries) * 100)
+    player_name = player.name
+
+    print(f"Guessed Pairs: {player.guessedPairs}\t| Tries: {player.tries}")
+    print(f"~ SCORE of {player_name}: {percentage_correct}% ~")
 
 
 def initialize_players(num_players):
@@ -108,11 +111,13 @@ def main_view_two_players():
         if game.is_player_one_turn:
             is_success = game_controller.play_turn(game, players[0], pos1.x, pos1.y, pos2.x, pos2.y)
             if is_success:
-                print("The player one " + players[0].name + " has guessed a pair. It is his turn again.")
+                if not game.is_game_finished:
+                    print("The player one " + players[0].name + " has guessed a pair. It is his turn again.")
         else:
             is_success = game_controller.play_turn(game, players[1], pos1.x, pos1.y, pos2.x, pos2.y)
             if is_success:
-                print("The player two " + players[1].name + " has guessed a pair. It is his turn again.")
+                if not game.is_game_finished:
+                    print("The player two " + players[1].name + " has guessed a pair. It is his turn again.")
 
         if not is_success:
             game.is_player_one_turn = not game.is_player_one_turn
